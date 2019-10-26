@@ -6,8 +6,8 @@ import re
 ##Functions to Validate and Clean 
 
 # function to remove url! 
-# def remove_url(txt): 
-#     return " ".join(re.sub("([^0-9A-Za-z \t])|(\w+:\/\/\S+)", "", txt).split())
+def remove_url(txt): 
+    return " ".join(re.sub("([^0-9A-Za-z \t])|(\w+:\/\/\S+)", "", txt).split())
 
 #Date input validation
 def validate(date_text):
@@ -36,20 +36,44 @@ api = tweepy.API(auth)
 # user_input = input('Which topic would you like to search for on Twitter: ')
 # public_tweets = api.search(user_input, count = 100, since = since_date , until=until_date)
 public_tweets=api.search('trump')
-print(public_tweets)
+
+
+# print(public_tweets)
+tweet_id={}
+for tweet in public_tweets:
+    key = tweet.id
+    if key not in tweet_id:
+        tweet_id[key] = [tweet.text]
+    else: 
+        tweet_id[key].append(tweet.text)
+print(tweet_id)
+
+tweets = api.user_timeline('realDonaldTrump')
+# print(dir(tweets[0]))
+# print(tweets[0].text)
+# print(tweets[0].id, tweets[0].text, tweets[0].created_at)
+
 ##to print tweets
-# def clean_tweets(public_tweets):
-#     cleaned_tweets=[]
-#     for tweets in public_tweets:
-#         tweets_no_id = re.sub('@[^\s]+','',tweets.text) #gets rid of id 
-#         tweets_no_url = remove_url(public_tweets) #gets rud of url
-#         tweets_no_rt = tweets_no_url.strip('RT') #get rid of rt 
-#         cleaned_tweets.append(tweets_no_rt)
-#     return cleaned_tweets
+def clean_tweets(public_tweets):
+    cleaned_tweets=[]
+    for tweets in public_tweets:
+        tweets_no_id = re.sub('@[^\s]+','',tweets.text) #gets rid of id 
+        tweets_no_url = remove_url(tweets_no_id) #gets rid of url
+        tweets_no_rt = tweets_no_url.strip('RT') #get rid of rt 
+        cleaned_tweets.append(tweets_no_rt)
+    return cleaned_tweets
 
 
-# cleaned_tweets= clean_tweets(public_tweets)
+cleaned_tweets= clean_tweets(public_tweets)
 # print(cleaned_tweets)
+
+## Create dictionary of twitter per ID
+# def create_dictionary(cleaned_tweets):
+#     d = dict()
+#     for tweets in cleaned_tweets:
+#         key =
+
+
 
 ## Get sentiment analysis 
 # def get_sentiment(cleaned_tweets):
