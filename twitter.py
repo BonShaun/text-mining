@@ -1,6 +1,6 @@
 #import necessary libraries 
 import tweepy 
-import textblob
+from textblob import TextBlob
 import datetime
 import re 
 ##Functions to Validate and Clean 
@@ -37,30 +37,45 @@ api = tweepy.API(auth)
 # public_tweets = api.search(user_input, count = 100, since = since_date , until=until_date)
 public_tweets=api.search('trump')
 
-# new_public_tweets= re.sub('@[^\s]+','',public_tweets)
-#to print tweets 
-def clean_tweets(public_tweets): 
-    for tweet in public_tweets:
-        tweets_no_id = re.sub('@[^\s]+','',tweet.text)
+##to print tweets
+def clean_tweets(public_tweets):
+    cleaned_tweets=[]
+    for tweets in public_tweets:
+        tweets_no_id = re.sub('@[^\s]+','',tweets.text)
         tweets_no_url = remove_url(tweets_no_id)
         tweets_no_rt = tweets_no_url.strip('RT') #get rid of rt 
-    return tweets_no_rt
+        cleaned_tweets.append(tweets_no_rt)
+    return cleaned_tweets
 
-tweets_final = clean_tweets(public_tweets)
+# print(clean_tweets(public_tweets))
+cleaned_tweets= clean_tweets(public_tweets)
+# print(cleaned_tweets)
 
-def sentiment_analysis(tweets_final): 
-    for tweet in tweets_final: 
+## Get sentiment analysis 
+def get_sentiment(cleaned_tweets):
+    text_list=[]
+    for tweet in cleaned_tweets: 
+        text= TextBlob(tweet)
+        text_list.append(text)
+        polarity = text.sentiment.polarity
+        subjectivity = text.sentiment.subjectivity
+    print(f'polarity: {}'+ polarity)
+    print(f'subjectivity: {}' + subjectivity)
 
-        analysis= textblob(tweet.tweets_final)
-    return analysis
+print(get_sentiment(cleaned_tweets))
 
-print(sentiment_analysis(tweets_final))
+
+# def sentiment_analysis(tweets_final)': 
+# for tweet in cleaned_tweets: 
+#     analysis= textblob(tweet.cleaned_tweets)
+#     return analysis
+
 
 #write a function that tells us if the tweet is positive or not 
-def get_label(analysis, threshold=0): # threshold
-    if analysis.sentiment[0] > threshold:
-       return 'Positive'
-     else:
-        return 'Negative'
+# def get_label(analysis, threshold=0): # threshold
+#     if analysis.sentiment[0] > threshold:
+#        return 'Positive'
+#      else:
+#         return 'Negative'
 
 
