@@ -37,49 +37,35 @@ api = tweepy.API(auth)
 # public_tweets = api.search(user_input, count = 100, since = since_date , until=until_date)
 public_tweets=api.search('trump')
 
-
-# print(public_tweets)
-def create_dictionary(public_tweets):
-    tweet_id={}
-    for tweet in public_tweets:
-        key = tweet.id
-        if key not in tweet_id:
-            tweet_id[key] = [tweet.text]
-        else: 
-            tweet_id[key].append(tweet.text)
-    return tweet_id
-
-print(create_dictionary(public_tweets))
-
-tweets = api.user_timeline('realDonaldTrump')
-# print(dir(tweets[0]))
-# print(tweets[0].text)
-# print(tweets[0].id, tweets[0].text, tweets[0].created_at)
-
 ##to print tweets
-#CLEANS LIST OF DICTIONARY
 def clean_tweets(public_tweets):
-    cleaned_tweets=[]
-    for tweets in public_tweets:
-        tweets_no_id = re.sub('@[^\s]+','',tweets.text) #gets rid of id 
-        tweets_no_url = remove_url(tweets_no_id) #gets rid of url
-        tweets_no_rt = tweets_no_url.strip('RT') #get rid of rt 
-        cleaned_tweets.append(tweets_no_rt)
-    return cleaned_tweets
+   cleaned_tweets=[]
+   for tweets in public_tweets:
+       # tweets_no_id = re.sub('@[^\s]+','',tweets.text) #gets rid of id
+       tweets_no_url = remove_url(tweets.text) #gets rid of url
+       tweets_no_rt = tweets_no_url.strip('RT') #get rid of rt
+       cleaned_tweets.append(tweets_no_rt)
+   return cleaned_tweets
 
-
-cleaned_tweets= clean_tweets(public_tweets)
+# print(clean_tweets(public_tweets))
+pre_dict_tweets = clean_tweets(public_tweets)
 # print(cleaned_tweets)
+# print(pre_dict_tweets)
 
-## Create dictionary of twitter per ID
-# def create_dictionary(cleaned_tweets):
-#     d = dict()
-#     for tweets in cleaned_tweets:
-#         key =
+# def user_dictionary(cleaned_tweets): 
+#     d= dict()
+#     for word in cleaned_tweets:
+#         key=''.join(sorted(word))
+#         if key not in d:
+#             d[key]=[word]
+#         else: 
+#             d[key].append(word)
+#     return d 
+# print(find_anagrams(group))
 
+print(public_tweets)
 
-
-## Get sentiment analysis 
+# ## Get sentiment analysis 
 # def get_sentiment(cleaned_tweets):
 #     text_list=[]
 #     for tweet in cleaned_tweets: 
@@ -93,17 +79,15 @@ cleaned_tweets= clean_tweets(public_tweets)
 # print(get_sentiment(cleaned_tweets))
 
 
-# def sentiment_analysis(tweets_final)': 
-# for tweet in cleaned_tweets: 
-#     analysis= textblob(tweet.cleaned_tweets)
-#     return analysis
+# # def sentiment_analysis(tweets_final)': 
+# # for tweet in cleaned_tweets: 
+# #     analysis= textblob(tweet.cleaned_tweets)
+# #     return analysis
 
 
-#write a function that tells us if the tweet is positive or not 
-# def get_label(analysis, threshold=0): # threshold
-#     if analysis.sentiment[0] > threshold:
-#        return 'Positive'
-#      else:
-#         return 'Negative'
-
-
+# #write a function that tells us if the tweet is positive or not 
+# # def get_label(analysis, threshold=0): # threshold
+# #     if analysis.sentiment[0] > threshold:
+# #        return 'Positive'
+# #      else:
+# #         return 'Negative'
