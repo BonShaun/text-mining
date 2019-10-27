@@ -51,33 +51,33 @@ def create_dictionary(public_tweets):
 
 print(create_dictionary(public_tweets))
 
-# dictionary_tweets = create_dictionary(public_tweets)
+dictionary_tweets = create_dictionary(public_tweets)
 
 
-# tweets = api.user_timeline('realDonaldTrump')
-# # print(dir(tweets[0]))
-# # print(tweets[0].text)
-# # print(tweets[0].id, tweets[0].text, tweets[0].created_at)
+tweets = api.user_timeline('realDonaldTrump')
+# print(dir(tweets[0]))
+# print(tweets[0].text)
+# print(tweets[0].id, tweets[0].text, tweets[0].created_at)
 
-# ##to print tweets
-# #CLEANS LIST OF DICTIONARY
-# def clean_tweets(dictionary_tweets):
-#     for key in dictionary_tweets.keys():
-#         str(key)
-#     for value in dictionary_tweets.values():
-#         re.sub('@[^\s]+','',dictionary_tweets) #gets rid of id 
-#         remove_url(dictionary_tweets) #gets rid of url
-#         value.strip('RT') #get rid of rt 
-#     return cleaned_tweets
+##to print tweets
+#CLEANS LIST OF DICTIONARY
+def clean_tweets(dictionary_tweets):
+    for key in dictionary_tweets.keys():
+        str(key)
+    for value in dictionary_tweets.values():
+        # re.sub('@[^\s]+','',dictionary_tweets) #gets rid of id 
+        # remove_url(dictionary_tweets) #gets rid of url
+        # value.strip('RT') #get rid of rt 
+        print(value)
 
-# cleaned_tweets= clean_tweets(dictionary_tweets)
-# print(cleaned_tweets)
+cleaned_tweets= clean_tweets(dictionary_tweets)
+print(cleaned_tweets)
 
-# ## Create dictionary of twitter per ID
-# # def create_dictionary(cleaned_tweets):
-# #     d = dict()
-# #     for tweets in cleaned_tweets:
-# #         key =
+## Create dictionary of twitter per ID
+# def create_dictionary(cleaned_tweets):
+#     d = dict()
+#     for tweets in cleaned_tweets:
+#         key =
 
 
 
