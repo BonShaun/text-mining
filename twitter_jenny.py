@@ -49,7 +49,10 @@ def create_dictionary(public_tweets):
             tweet_id[key].append(tweet.text)
     return tweet_id
 
-print(create_dictionary(public_tweets))
+# print(create_dictionary(public_tweets))
+
+dictionary_tweets = create_dictionary(public_tweets)
+
 
 tweets = api.user_timeline('realDonaldTrump')
 # print(dir(tweets[0]))
@@ -58,7 +61,7 @@ tweets = api.user_timeline('realDonaldTrump')
 
 ##to print tweets
 #CLEANS LIST OF DICTIONARY
-def clean_tweets(public_tweets):
+def clean_tweets(dictionary_tweets):
     cleaned_tweets=[]
     for tweets in public_tweets:
         tweets_no_id = re.sub('@[^\s]+','',tweets.text) #gets rid of id 
