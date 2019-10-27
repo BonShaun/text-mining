@@ -35,7 +35,8 @@ api = tweepy.API(auth)
 # # Step 3 - Retrieve Tweets
 # user_input = input('Which topic would you like to search for on Twitter: ')
 # public_tweets = api.search(user_input, count = 100, since = since_date , until=until_date)
-public_tweets=api.search('BTS')
+search = input(str("What search term do you want to search? "))
+public_tweets=api.search(search)
 
 
 # print(public_tweets)
@@ -49,9 +50,10 @@ def create_dictionary(public_tweets):
             tweet_id[key].append(tweet.text)
     return tweet_id
 
-print(create_dictionary(public_tweets))
+# print(create_dictionary(public_tweets))
 
 dictionary_tweets = create_dictionary(public_tweets)
+
 
 
 tweets = api.user_timeline('realDonaldTrump')
@@ -59,19 +61,28 @@ tweets = api.user_timeline('realDonaldTrump')
 # print(tweets[0].text)
 # print(tweets[0].id, tweets[0].text, tweets[0].created_at)
 
-##to print tweets
-#CLEANS LIST OF DICTIONARY
+# to print tweets
+# CLEANS LIST OF DICTIONARY
 def clean_tweets(dictionary_tweets):
-    for key in dictionary_tweets.keys():
-        str(key)
-    for value in dictionary_tweets.values():
-        # re.sub('@[^\s]+','',dictionary_tweets) #gets rid of id 
-        # remove_url(dictionary_tweets) #gets rid of url
-        # value.strip('RT') #get rid of rt 
-        print(value)
+    for key, value in dictionary_tweets.items():
+        count = 0
+        for word in value:
+            # print(words)
+            # print(type(words))
+            word = re.sub('@[^\s]+','',word) #gets rid of id 
+            word = remove_url(word) #gets rid of url
+            word = word.strip('RT') #get rid of rt
+            dictionary_tweets[key][count] = word
+            count += 1
+    # print(dictionary_tweets)
+    return dictionary_tweets
 
-cleaned_tweets= clean_tweets(dictionary_tweets)
-print(cleaned_tweets)
+cleaned_tweets = clean_tweets(dictionary_tweets)
+# print(cleaned_tweets)
+# print({key:value for key, value in cleaned_tweets.items() if len(value) > 1}) 
+#^ to check if there's more than one value
+
+
 
 ## Create dictionary of twitter per ID
 # def create_dictionary(cleaned_tweets):
@@ -81,18 +92,23 @@ print(cleaned_tweets)
 
 
 
-# ## Get sentiment analysis 
-# # def get_sentiment(cleaned_tweets):
-# #     text_list=[]
-# #     for tweet in cleaned_tweets: 
-# #         text= TextBlob(tweet)
-# #         text_list.append(text)
-# #         polarity = text.sentiment.polarity
-# #         subjectivity = text.sentiment.subjectivity
-# #     print(f'polarity: {}'+ polarity)
-# #     print(f'subjectivity: {}' + subjectivity)
+# Get sentiment analysis 
+def get_sentiment(cleaned_tweets):
+    polarity = 0
+    subjectivity = 0
+    num_tweets = 0
+    for value in cleaned_tweets.values(): 
+        for tweet in value:
+            text = TextBlob(tweet)
+            polarity += text.sentiment.polarity
+            subjectivity += text.sentiment.subjectivity
+            num_tweets += 1
+    avg_polarity = polarity / num_tweets
+    avg_sensitivity = subjectivity / num_tweets
+    return (f"polarity: {avg_polarity:.3f}"), (f"subjectivity: {avg_sensitivity:.3f}")
 
-# # print(get_sentiment(cleaned_tweets))
+
+print(get_sentiment(dictionary_tweets))
 
 
 # # def sentiment_analysis(tweets_final)': 
@@ -101,9 +117,11 @@ print(cleaned_tweets)
 # #     return analysis
 
 
-# #write a function that tells us if the tweet is positive or not 
-# # def get_label(analysis, threshold=0): # threshold
-# #     if analysis.sentiment[0] > threshold:
-# #        return 'Positive'
-# #      else:
-# #         return 'Negative'
+# write a function that tells us if the tweet is positive or not 
+def get_label(analysis, threshold=0): # threshold
+    if analysis.sentiment[0] > threshold:
+       return 'Positive'
+    else:
+        return 'Negative'
+
+
