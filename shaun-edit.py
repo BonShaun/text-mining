@@ -2,7 +2,8 @@
 import tweepy 
 from textblob import TextBlob
 import datetime
-import re 
+import re
+import panda as pd
 ##Functions to Validate and Clean 
 
 # function to remove url! 
@@ -109,6 +110,7 @@ def get_sentiment(cleaned_tweets):
 
 
 print(get_sentiment(dictionary_tweets))
+sentiment = get_sentiment(dictionary_tweets)
 
 
 # # def sentiment_analysis(tweets_final)': 
@@ -118,10 +120,14 @@ print(get_sentiment(dictionary_tweets))
 
 
 # write a function that tells us if the tweet is positive or not 
-def get_label(analysis, threshold=0): # threshold
-    if analysis.sentiment[0] > threshold:
-       return 'Positive'
-    else:
-        return 'Negative'
+# def get_label(analysis, threshold=0): # threshold
+#     if analysis.sentiment[0] > threshold:
+#        return 'Positive'
+#     else:
+#         return 'Negative'
 
+
+sentiment_df = pd.DataFrame(sentiment, columns=["polarity","subjectivity", "tweet"])
+
+sentiment_df.head()
 
