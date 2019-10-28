@@ -3,7 +3,7 @@ import tweepy
 from textblob import TextBlob
 import datetime
 import re
-import panda as pd
+import pandas as pd
 ##Functions to Validate and Clean 
 
 # function to remove url! 
@@ -42,14 +42,21 @@ public_tweets=api.search(search)
 
 # print(public_tweets)
 def create_dictionary(public_tweets):
-    tweet_id={}
+    """
+    
+    """
+    tweet_dictionary={}
     for tweet in public_tweets:
-        key = tweet.id
-        if key not in tweet_id:
-            tweet_id[key] = [tweet.text]
+        # print(dir(tweet))
+        # print(tweet.text, tweet.id)
+        # print(dir(tweet.user))
+        # print(tweet.user.screen_name)
+        key = tweet.user.screen_name
+        if key not in tweet_dictionary:
+            tweet_dictionary[key] = [tweet.text]
         else: 
-            tweet_id[key].append(tweet.text)
-    return tweet_id
+            tweet_dictionary[key].append(tweet.text)
+    return tweet_dictionary
 
 # print(create_dictionary(public_tweets))
 
@@ -57,7 +64,7 @@ dictionary_tweets = create_dictionary(public_tweets)
 
 
 
-tweets = api.user_timeline('realDonaldTrump')
+# tweets = api.user_timeline('realDonaldTrump')
 # print(dir(tweets[0]))
 # print(tweets[0].text)
 # print(tweets[0].id, tweets[0].text, tweets[0].created_at)
@@ -79,7 +86,7 @@ def clean_tweets(dictionary_tweets):
     return dictionary_tweets
 
 cleaned_tweets = clean_tweets(dictionary_tweets)
-# print(cleaned_tweets)
+print(cleaned_tweets)
 # print({key:value for key, value in cleaned_tweets.items() if len(value) > 1}) 
 #^ to check if there's more than one value
 
@@ -95,22 +102,25 @@ cleaned_tweets = clean_tweets(dictionary_tweets)
 
 # Get sentiment analysis 
 def get_sentiment(cleaned_tweets):
-    polarity = 0
-    subjectivity = 0
+    total_polarity = 0
+    total_subjectivity = 0
     num_tweets = 0
     for value in cleaned_tweets.values(): 
         for tweet in value:
             text = TextBlob(tweet)
-            polarity += text.sentiment.polarity
-            subjectivity += text.sentiment.subjectivity
+            total_polarity += text.sentiment.polarity
+            total_subjectivity += text.sentiment.subjectivity
             num_tweets += 1
-    avg_polarity = polarity / num_tweets
-    avg_sensitivity = subjectivity / num_tweets
-    return (f"polarity: {avg_polarity:.3f}"), (f"subjectivity: {avg_sensitivity:.3f}")
+    avg_polarity = total_polarity / num_tweets
+    avg_subjectivity = total_subjectivity / num_tweets
+    return avg_polarity, avg_subjectivity
 
 
-print(get_sentiment(dictionary_tweets))
-sentiment = get_sentiment(dictionary_tweets)
+
+print(f"Polarity: {get_sentiment(cleaned_tweets)[0]:.3f}", f"Subjectivity: {get_sentiment(cleaned_tweets)[1]:.3f}")
+# sentiment = get_sentiment(dictionary_tweets)
+# where polarity is a float within the range [-1.0, 1.0] 
+# and subjectivity is a float within the range [0.0, 1.0] where 0.0 is very objective and 1.0 is very subjective.
 
 
 # # def sentiment_analysis(tweets_final)': 
@@ -127,7 +137,7 @@ sentiment = get_sentiment(dictionary_tweets)
 #         return 'Negative'
 
 
-sentiment_df = pd.DataFrame(sentiment, columns=["polarity","subjectivity", "tweet"])
+# sentiment_df = pd.DataFrame(data = cleaned_tweets, columns=["polarity","subjectivity", "tweet"])
 
-sentiment_df.head()
+# sentiment_df.head()
 
