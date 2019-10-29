@@ -3,7 +3,7 @@ import tweepy
 from textblob import TextBlob
 import datetime
 import re
-# import pandas as pd
+import pandas as pd
 ##Functions to Validate and Clean 
 
 # function to remove url! 
@@ -152,6 +152,15 @@ def get_label(analysis, threshold=0): # threshold
     else:
         return 'Negative'
 print(get_label(get_sentiment(cleaned_tweets), threshold=0))
+
+def main():
+    """ 
+    function that prints out all the necessary information 
+    including the polarity and the subjectivity of the specific keyword
+    """
+    print("The polarity and the subjectivity of the keyword"+ (user_input) "is below.")
+    print(f"Polarity: {get_sentiment(cleaned_tweets)[0]:.3f}", f"Subjectivity: {get_sentiment(cleaned_tweets)[1]:.3f}")
+    
 
 
 # sentiment_df = pd.DataFrame(data = cleaned_tweets, columns=["polarity","subjectivity", "tweet"])
