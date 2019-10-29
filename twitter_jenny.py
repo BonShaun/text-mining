@@ -39,11 +39,13 @@ auth.set_access_token(access_token, acccess_token_secret)
 api = tweepy.API(auth)
 
 # #Step 1- validate date 
+user_input = input('Which topic would you like to search for on Twitter: ')
+
 since_date = validate(input('Enter starting date in the form of  (YYYY-MM-DD): '))
 until_date = validate(input('Enter ending date in the form of (YYYY-MM-DD): '))
 
 # # Step 3 - Retrieve Tweets
-user_input = input('Which topic would you like to search for on Twitter: ')
+
 public_tweets = api.search(user_input, count = 100, since = since_date , until=until_date)
 # search = input(str("What search term do you want to search? "))
 # public_tweets=api.search(search)
@@ -151,7 +153,9 @@ def get_label(analysis, threshold=0): # threshold
        return 'Positive'
     else:
         return 'Negative'
-print(get_label(get_sentiment(cleaned_tweets), threshold=0))
+
+analysis = get_sentiment(cleaned_tweets)
+print(get_label(analysis, threshold=0))
 
 
 # sentiment_df = pd.DataFrame(data = cleaned_tweets, columns=["polarity","subjectivity", "tweet"])
