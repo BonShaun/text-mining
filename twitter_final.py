@@ -3,7 +3,7 @@ import tweepy
 from textblob import TextBlob
 import datetime
 import re
-import pandas as pd
+
 ##Functions to Validate and Clean 
 
 # function to remove url! 
@@ -41,13 +41,15 @@ api = tweepy.API(auth)
 # #Step 1- validate date 
 user_input = input('Which topic would you like to search for on Twitter: ')
 
-since_date = validate(input('Enter starting date in the form of  (YYYY-MM-DD): '))
-until_date = validate(input('Enter ending date in the form of (YYYY-MM-DD): '))
+# since_date = validate(input('Enter starting date in the form of  (YYYY-MM-DD): '))
+# until_date = validate(input('Enter ending date in the form of (YYYY-MM-DD): '))
 
 #Create second search
 def second_search():
     """
-    
+    second_search() function gives the users option to search another keyword to be analyzed. 
+    if users respond 'yes' to the first question, it will allow the users to input another keyword. 
+    The output would provide sensitivity analysis for both keywords.   
     """
     while True:
         user_response = input('Would you like to analyze another term? Please input yes or no : ')
@@ -70,7 +72,7 @@ def second_search():
 
 # # Step 3 - Retrieve Tweets
 
-public_tweets = api.search(user_input, count = 100, since = since_date , until=until_date)
+public_tweets = api.search(user_input, count = 100)
 
 # search = input(str("What search term do you want to search? "))
 # public_tweets=api.search(search)
@@ -162,7 +164,7 @@ def get_sentiment(cleaned_tweets):
 
 
 
-# print(f"Polarity: {get_sentiment(cleaned_tweets)[0]:.3f}", f"Subjectivity: {get_sentiment(cleaned_tweets)[1]:.3f}")
+print(f"Polarity: {get_sentiment(cleaned_tweets)[0]:.3f}", f"Subjectivity: {get_sentiment(cleaned_tweets)[1]:.3f}")
 # print(f"Polarity: {get_sentiment(cleaned_tweets2)[0]:.3f}", f"Subjectivity: {get_sentiment(cleaned_tweets2)[1]:.3f}")
 # sentiment = get_sentiment(dictionary_tweets)
 # where polarity is a float within the range [-1.0, 1.0] 
@@ -186,29 +188,28 @@ analysis = get_sentiment(cleaned_tweets)
 
 # print(get_label(analysis, threshold=0))
 
-def main(a, b, c):
+def main(keyword, all_cleaned_tweets, anaylsis):
     """ 
     function that prints out all the necessary information 
     including the polarity and the subjectivity of the specific keyword
+    analysis refers to sentiment of tweets 
     """
     print()
     print("-----------------------------------------------------------------------------")
     print()
-    print("The polarity and the subjectivity of the keyword" +" '"+ (a) +"' is below.")
-    print(f"Polarity: {get_sentiment(b)[0]:.3f}", f"Subjectivity: {get_sentiment(b)[1]:.3f}")
-    print("Based on the polarity, the overall sentiment of the keyword" + " '"+ (a)+"' is " + get_label(c, threshold =0) + ".")
+    print("The polarity and the subjectivity of the keyword" +" '"+ (keyword) +"' is below.")
+    print(f"Polarity: {get_sentiment(all_cleaned_tweets)[0]:.3f}", f"Subjectivity: {get_sentiment(all_cleaned_tweets)[1]:.3f}")
+    print("Based on the polarity, the overall sentiment of the keyword" + " '"+ (analysis)+"' is " + get_label(analysis, threshold =0) + ".")
     print()
     print("-----------------------------------------------------------------------------")
 
 
 
 
-second_search() 
+# second_search() 
 print("For your reference...")
 print("Polarity is a float within the range [-1.0, 1.0], -1.0 being completely negative and 1.0 being completely positive.")
 print("Subjectivity is a float within the range [0.0, 1.0] where 0.0 is very objective and 1.0 is very subjective.")  
 
-# sentiment_df = pd.DataFrame(data = cleaned_tweets, columns=["polarity","subjectivity", "tweet"])
 
-# sentiment_df.head()
 
