@@ -61,7 +61,7 @@ def second_search():
             else:
                 user_input2= input('What topic would you like to analyze as your second keyword? ')
        
-                public_tweets2 = api.search(user_input2, count = 100, since = since_date , until=until_date)
+                public_tweets2 = api.search(user_input2, count = 100)
                 dictionary_tweets2 = create_dictionary(public_tweets2)
                 cleaned_tweets2 = clean_tweets(dictionary_tweets2)
                 analysis2 = get_sentiment(cleaned_tweets2)
@@ -164,7 +164,7 @@ def get_sentiment(cleaned_tweets):
 
 
 
-print(f"Polarity: {get_sentiment(cleaned_tweets)[0]:.3f}", f"Subjectivity: {get_sentiment(cleaned_tweets)[1]:.3f}")
+# print(f"Polarity: {get_sentiment(cleaned_tweets)[0]:.3f}", f"Subjectivity: {get_sentiment(cleaned_tweets)[1]:.3f}")
 # print(f"Polarity: {get_sentiment(cleaned_tweets2)[0]:.3f}", f"Subjectivity: {get_sentiment(cleaned_tweets2)[1]:.3f}")
 # sentiment = get_sentiment(dictionary_tweets)
 # where polarity is a float within the range [-1.0, 1.0] 
@@ -199,14 +199,14 @@ def main(keyword, all_cleaned_tweets, anaylsis):
     print()
     print("The polarity and the subjectivity of the keyword" +" '"+ (keyword) +"' is below.")
     print(f"Polarity: {get_sentiment(all_cleaned_tweets)[0]:.3f}", f"Subjectivity: {get_sentiment(all_cleaned_tweets)[1]:.3f}")
-    print("Based on the polarity, the overall sentiment of the keyword" + " '"+ (analysis)+"' is " + get_label(analysis, threshold =0) + ".")
+    print("Based on the polarity, the overall sentiment of the keyword" + " '"+ (keyword)+"' is " + get_label(analysis, threshold =0) + ".")
     print()
     print("-----------------------------------------------------------------------------")
 
 
 
 
-# second_search() 
+second_search() 
 print("For your reference...")
 print("Polarity is a float within the range [-1.0, 1.0], -1.0 being completely negative and 1.0 being completely positive.")
 print("Subjectivity is a float within the range [0.0, 1.0] where 0.0 is very objective and 1.0 is very subjective.")  
