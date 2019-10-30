@@ -213,9 +213,4 @@ def main2():
     print("Polarity is a float within the range [-1.0, 1.0], -1.0 being completely negative and 1.0 being completely positive.")
     print("Subjectivity is a float within the range [0.0, 1.0] where 0.0 is very objective and 1.0 is very subjective.")  
 
-second_search() 
-
-sentiment_df = pd.DataFrame(data = cleaned_tweets, columns=["polarity","subjectivity", "tweet"])
-
-sentiment_df.head()
 

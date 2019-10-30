@@ -137,7 +137,7 @@ print(f"Polarity: {get_sentiment(cleaned_tweets)[0]:.3f}", f"Subjectivity: {get_
 #         return 'Negative'
 
 
-sentiment_df = pd.DataFrame(data = cleaned_tweets)
+sentiment_df = pd.DataFrame(cleaned_tweets)
 
 sentiment_df.head()
 
