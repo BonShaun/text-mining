@@ -59,7 +59,7 @@ def second_search():
             else:
                 user_input2= input('What topic would you like to analyze as your second keyword? ')
        
-                public_tweets2 = api.search(user_input2, count = 100, since = since_date , until=until_date)
+                public_tweets2 = api.search(user_input2, count = 100)
                 dictionary_tweets2 = create_dictionary(public_tweets2)
                 cleaned_tweets2 = clean_tweets(dictionary_tweets2)
                 analysis2 = get_sentiment(cleaned_tweets2)
@@ -203,8 +203,8 @@ def main(a, b, c):
 
 
 
-<<<<<<< HEAD
 second_search() 
+
 print("For your reference...")
 print("Polarity is a float within the range [-1.0, 1.0], -1.0 being completely negative and 1.0 being completely positive.")
 print("Subjectivity is a float within the range [0.0, 1.0] where 0.0 is very objective and 1.0 is very subjective.")  
@@ -212,6 +212,4 @@ print("Subjectivity is a float within the range [0.0, 1.0] where 0.0 is very obj
 # sentiment_df = pd.DataFrame(data = cleaned_tweets, columns=["polarity","subjectivity", "tweet"])
 
 # sentiment_df.head()
-=======
->>>>>>> 440431e272378afcda7886051bba0caa96829183
 
