@@ -46,23 +46,29 @@ until_date = validate(input('Enter ending date in the form of (YYYY-MM-DD): '))
 
 #Create second search
 def second_search():
-    user_input2 = input('Would you like to analyze another term? Please input yes or no.')
+    user_response = input('Would you like to analyze another term? Please input yes or no.')
     # print(user_input2)
     # print(type(user_input2))
-    if str(user_input2) not in ['yes', 'no']:
-        user_input2 = input('Wrong Input! Please respond in \'yes\' or \'no\'.')
-    elif user_input2 == 'no':
+    if str(user_response) not in ['yes', 'no']:
+        user_response = input('Wrong Input! Please respond in \'yes\' or \'no\'.')
+    elif user_response == 'no':
         main()
     else:
-        main()
-        main2()
+        user_input2= input('What topic would you like to analyze as your second keyword?')
+       
+    public_tweets2 = api.search(user_input2, count = 100, since = since_date , until=until_date)
+    dictionary_tweets2 = create_dictionary(public_tweets2)
+    cleaned_tweets2 = clean_tweets(dictionary_tweets2)
+    analysis2 = get_sentiment(cleaned_tweets2)
+    main()
+    main2()
 
 
 
 # # Step 3 - Retrieve Tweets
 
 public_tweets = api.search(user_input, count = 100, since = since_date , until=until_date)
-public_tweets2 = api.search(user_input, count = 100, since = since_date , until=until_date)
+
 # search = input(str("What search term do you want to search? "))
 # public_tweets=api.search(search)
 
@@ -90,7 +96,7 @@ def create_dictionary(public_tweets):
 # print(create_dictionary(public_tweets))
 
 dictionary_tweets = create_dictionary(public_tweets)
-dictionary_tweets2 = create_dictionary(public_tweets2)
+
 
 
 
@@ -121,7 +127,7 @@ def clean_tweets(dictionary_tweets):
     return dictionary_tweets
 
 cleaned_tweets = clean_tweets(dictionary_tweets)
-cleaned_tweets2 = clean_tweets(dictionary_tweets2)
+
 # print(cleaned_tweets)
 # print({key:value for key, value in cleaned_tweets.items() if len(value) > 1}) 
 #^ to check if there's more than one value
@@ -174,7 +180,7 @@ def get_label(analysis, threshold=0): # threshold
         return 'Negative'
 
 analysis = get_sentiment(cleaned_tweets)
-analysis2 = get_sentiment(cleaned_tweets2)
+
 # print(get_label(analysis, threshold=0))
 
 def main():
