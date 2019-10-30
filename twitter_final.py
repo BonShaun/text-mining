@@ -203,7 +203,6 @@ def main(a, b, c):
 
 
 
-<<<<<<< HEAD
 second_search() 
 print("For your reference...")
 print("Polarity is a float within the range [-1.0, 1.0], -1.0 being completely negative and 1.0 being completely positive.")
@@ -212,6 +211,4 @@ print("Subjectivity is a float within the range [0.0, 1.0] where 0.0 is very obj
 # sentiment_df = pd.DataFrame(data = cleaned_tweets, columns=["polarity","subjectivity", "tweet"])
 
 # sentiment_df.head()
-=======
->>>>>>> 440431e272378afcda7886051bba0caa96829183
 

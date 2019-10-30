@@ -86,7 +86,7 @@ def clean_tweets(dictionary_tweets):
     return dictionary_tweets
 
 cleaned_tweets = clean_tweets(dictionary_tweets)
-print(cleaned_tweets)
+# print(cleaned_tweets)
 # print({key:value for key, value in cleaned_tweets.items() if len(value) > 1}) 
 #^ to check if there's more than one value
 
@@ -137,7 +137,9 @@ print(f"Polarity: {get_sentiment(cleaned_tweets)[0]:.3f}", f"Subjectivity: {get_
 #         return 'Negative'
 
 
-# sentiment_df = pd.DataFrame(data = cleaned_tweets, columns=["polarity","subjectivity", "tweet"])
+sentiment_df = pd.DataFrame(cleaned_tweets)
 
-# sentiment_df.head()
+sentiment_df.head()
+
+print(sentiment_df)
 
