@@ -47,7 +47,7 @@ user_input = input('Which topic would you like to search for on Twitter: ')
 #Create second search
 def second_search():
     """
-    second_search() function gives the users option to search another keyword to be analyzed. 
+    second_search() function gives users the option to search another keyword to be analyzed. 
     if users respond 'yes' to the first question, it will allow the users to input another keyword. 
     The output would provide sensitivity analysis for both keywords.   
     """
