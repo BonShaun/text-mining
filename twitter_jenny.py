@@ -209,7 +209,7 @@ def main2():
 
 second_search() 
 
-# sentiment_df = pd.DataFrame(data = cleaned_tweets, columns=["polarity","subjectivity", "tweet"])
+sentiment_df = pd.DataFrame(data = cleaned_tweets, columns=["polarity","subjectivity", "tweet"])
 
-# sentiment_df.head()
+sentiment_df.head()
 
