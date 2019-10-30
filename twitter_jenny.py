@@ -44,9 +44,25 @@ user_input = input('Which topic would you like to search for on Twitter: ')
 since_date = validate(input('Enter starting date in the form of  (YYYY-MM-DD): '))
 until_date = validate(input('Enter ending date in the form of (YYYY-MM-DD): '))
 
+#Create second search
+def second_search():
+    user_input2 = input('Would you like to analyze another term? Please input yes or no.')
+    # print(user_input2)
+    # print(type(user_input2))
+    if str(user_input2) not in ['yes', 'no']:
+        user_input2 = input('Wrong Input! Please respond in \'yes\' or \'no\'.')
+    elif user_input2 == 'no':
+        main()
+    else:
+        main()
+        main2()
+
+
+
 # # Step 3 - Retrieve Tweets
 
 public_tweets = api.search(user_input, count = 100, since = since_date , until=until_date)
+public_tweets2 = api.search(user_input, count = 100, since = since_date , until=until_date)
 # search = input(str("What search term do you want to search? "))
 # public_tweets=api.search(search)
 
@@ -74,6 +90,7 @@ def create_dictionary(public_tweets):
 # print(create_dictionary(public_tweets))
 
 dictionary_tweets = create_dictionary(public_tweets)
+dictionary_tweets2 = create_dictionary(public_tweets2)
 
 
 
@@ -104,6 +121,7 @@ def clean_tweets(dictionary_tweets):
     return dictionary_tweets
 
 cleaned_tweets = clean_tweets(dictionary_tweets)
+cleaned_tweets2 = clean_tweets(dictionary_tweets2)
 # print(cleaned_tweets)
 # print({key:value for key, value in cleaned_tweets.items() if len(value) > 1}) 
 #^ to check if there's more than one value
@@ -135,7 +153,8 @@ def get_sentiment(cleaned_tweets):
 
 
 
-print(f"Polarity: {get_sentiment(cleaned_tweets)[0]:.3f}", f"Subjectivity: {get_sentiment(cleaned_tweets)[1]:.3f}")
+# print(f"Polarity: {get_sentiment(cleaned_tweets)[0]:.3f}", f"Subjectivity: {get_sentiment(cleaned_tweets)[1]:.3f}")
+# print(f"Polarity: {get_sentiment(cleaned_tweets2)[0]:.3f}", f"Subjectivity: {get_sentiment(cleaned_tweets2)[1]:.3f}")
 # sentiment = get_sentiment(dictionary_tweets)
 # where polarity is a float within the range [-1.0, 1.0] 
 # and subjectivity is a float within the range [0.0, 1.0] where 0.0 is very objective and 1.0 is very subjective.
@@ -155,17 +174,40 @@ def get_label(analysis, threshold=0): # threshold
         return 'Negative'
 
 analysis = get_sentiment(cleaned_tweets)
-print(get_label(analysis, threshold=0))
+analysis2 = get_sentiment(cleaned_tweets2)
+# print(get_label(analysis, threshold=0))
 
 def main():
     """ 
     function that prints out all the necessary information 
     including the polarity and the subjectivity of the specific keyword
     """
-    print("The polarity and the subjectivity of the keyword"+ (user_input) "is below.")
+    print()
+    print("The polarity and the subjectivity of the keyword" +" '"+ (user_input) +"' is below.")
     print(f"Polarity: {get_sentiment(cleaned_tweets)[0]:.3f}", f"Subjectivity: {get_sentiment(cleaned_tweets)[1]:.3f}")
-    
+    print("Based on the polarity, the overall sentiment of the keyword" + " '"+ (user_input)+"' is " + get_label(analysis, threshold =0) + ".")
+    print()
+    print("For your reference...")
+    print("Polarity is a float within the range [-1.0, 1.0], -1.0 being completely negative and 1.0 being completely positive.")
+    print("Subjectivity is a float within the range [0.0, 1.0] where 0.0 is very objective and 1.0 is very subjective.")  
 
+
+
+def main2():
+    """ 
+    function that prints out all the necessary information 
+    including the polarity and the subjectivity of the specific second keyword 
+    """
+    print()
+    print("The polarity and the subjectivity of the keyword" +" '"+ (user_input2) +"' is below.")
+    print(f"Polarity: {get_sentiment(cleaned_tweets2)[0]:.3f}", f"Subjectivity: {get_sentiment(cleaned_tweets2)[1]:.3f}")
+    print("Based on the polarity, the overall sentiment of the keyword" + " '"+ (user_input2)+"' is " + get_label(analysis2, threshold =0) + ".")
+    print()
+    print("For your reference...")
+    print("Polarity is a float within the range [-1.0, 1.0], -1.0 being completely negative and 1.0 being completely positive.")
+    print("Subjectivity is a float within the range [0.0, 1.0] where 0.0 is very objective and 1.0 is very subjective.")  
+
+second_search() 
 
 # sentiment_df = pd.DataFrame(data = cleaned_tweets, columns=["polarity","subjectivity", "tweet"])
 
