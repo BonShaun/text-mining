@@ -127,11 +127,6 @@ cleaned_tweets = clean_tweets(dictionary_tweets)
 #^ to check if there's more than one value
 
 
-
-
-
-
-
 # Get sentiment analysis 
 def get_sentiment(cleaned_tweets):
     """
@@ -162,7 +157,7 @@ subjectivity1= get_sentiment(cleaned_tweets)[1]
 
 
 
-# #write a function that tells us if the tweet is positive or not 
+# write a function that tells us if the tweet is positive or not 
 def get_label(analysis, threshold=0): # threshold
     """
     this function provides the sentiment of the tweets.
@@ -228,7 +223,6 @@ def main(keyword, all_cleaned_tweets, anaylsis):
     print("Based on the polarity, the overall sentiment of the keyword" + " '"+ (keyword)+"' is " + get_label(analysis, threshold =0) + ".")
     print()
     print("-----------------------------------------------------------------------------")
-
 
 
 
