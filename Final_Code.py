@@ -15,19 +15,6 @@ def remove_url(txt):
     """
     return " ".join(re.sub("([^0-9A-Za-z \t])|(\w+:\/\/\S+)", "", txt).split())
 
-#Date input validation
-def validate(date_text):
-    """
-    function that validates the correct form of the date 
-    when the user puts in the time frame for keyword they want to analyze
-
-    """
-    try:
-        datetime.datetime.strptime(date_text, '%Y-%m-%d')
-    except ValueError:
-        raise ValueError("Incorrect data format, should be YYYY-MM-DD")
-
-
 
 #authenticate the keys 
 consumer_key = 'WWSMyFjVOJzjR5wtXizC1B0go'
@@ -39,11 +26,9 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, acccess_token_secret)
 api = tweepy.API(auth)
 
-# #Step 1- validate date 
+# #Step 1- first user input
 user_input = input('Which topic would you like to search for on Twitter: ')
 
-# since_date = validate(input('Enter starting date in the form of  (YYYY-MM-DD): '))
-# until_date = validate(input('Enter ending date in the form of (YYYY-MM-DD): '))
 
 #Create second search
 def second_search():
@@ -62,7 +47,7 @@ def second_search():
             else:
                 user_input2= input('What topic would you like to analyze as your second keyword? ')
        
-                public_tweets2 = api.search(user_input2, count = 100)
+                public_tweets2 = api.search(user_input2, count = 1000)
                 dictionary_tweets2 = create_dictionary(public_tweets2)
                 cleaned_tweets2 = clean_tweets(dictionary_tweets2)
                 analysis2 = get_sentiment(cleaned_tweets2)
@@ -70,13 +55,13 @@ def second_search():
                 subjectivity2 = get_sentiment(cleaned_tweets2)[1]
                 main(user_input, cleaned_tweets, analysis)
                 main(user_input2, cleaned_tweets2, analysis2)
-                bar_plot(polarity1, subjectivity1, polarity2, subjectivity2)
+                bar_plot(polarity1, subjectivity1, polarity2, subjectivity2, user_input, user_input2)
                 break
 
 
 # # Step 3 - Retrieve Tweets
 
-public_tweets = api.search(user_input, count = 100)
+public_tweets = api.search(user_input, count = 1000)
 
 # search = input(str("What search term do you want to search? "))
 # public_tweets=api.search(search)
@@ -194,7 +179,11 @@ analysis = get_sentiment(cleaned_tweets)
 # print(get_label(analysis, threshold=0))
 
 
-def bar_plot(polarity1, subjectivity1, polarity2, subjectivity2):
+def bar_plot(polarity1, subjectivity1, polarity2, subjectivity2, user_input1, user_input2):
+    """
+    Bar_plot that provides the visualized comparison of the polarity and subjectivity between 
+    the two user inputs. Great tools for users to see the different sentiments between two inputs. 
+    """
     n_group = 2
     comparison1 = (polarity1, subjectivity1)
     comparison2 = (polarity2, subjectivity2)
@@ -208,12 +197,12 @@ def bar_plot(polarity1, subjectivity1, polarity2, subjectivity2):
     rects1 = plt.bar(index, comparison1, bar_width,
     alpha = opacity,
     color = 'b',
-    label = 'User_Input1')
+    label = user_input1)
     
     rects2 = plt.bar(index + bar_width, comparison2, bar_width,
     alpha = opacity,
     color = 'r',
-    label = 'User_Input2')
+    label = user_input2)
 
     plt.ylabel('Score')
     plt.title('Polarity and Subjectivity Comparison')
